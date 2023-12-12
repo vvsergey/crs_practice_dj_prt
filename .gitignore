@@ -1,0 +1,8 @@
+*_venv/
+../venv_crs_practice/
+*venv_crs_practice
+*_venv
+.idea
+*.idea
+*.pyc
+db.*
