@@ -40,13 +40,6 @@ def translator(article_en):
     )
     transleted = tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
 
-    # tokenizer = T5Tokenizer.from_pretrained('Helsinki-NLP/opus-mt-en-ru')
-    # model = T5ForConditionalGeneration.from_pretrained('Helsinki-NLP/opus-mt-en-ru').eval()
-
-    # input_ids = tokenizer(text, return_tensors='pt').input_ids
-    # outputs = model.generate(input_ids, min_length=200, max_length=300, early_stopping=True)
-    # summary = tokenizer.decode(outputs[0], skip_special_tokens=True)
-
     print(transleted)
     transleted = transleted[0]
     return transleted
