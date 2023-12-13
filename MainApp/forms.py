@@ -6,10 +6,13 @@ class TranslateFrom(ModelForm):
         model = Translate
         fields = ['article']
         widgets = {
-            'article': Textarea(attrs={'placeholder': 'Вставьте сюда статью на английском, которую нужно перевести'})
+            'article': Textarea(attrs={
+                'placeholder': 'Вставьте сюда статью на английском, которую нужно перевести',
+                'class': 'form-control',
+            })
         }
         labels = {
-            'article':''
+            'article':'123'
         }
 
 
@@ -18,7 +21,10 @@ class SummaryForm(ModelForm):
         model = Summary
         fields = ['translate_text']
         widgets = {
-            'translate_text': Textarea(attrs={'placeholder': 'Вставьте сюда статью по которой хотите получить краткое содержание'})
+            'translate_text': Textarea(attrs={
+                'placeholder': 'Вставьте сюда статью по которой хотите получить краткое содержание',
+                'class': 'form-control',
+            })
         }
         labels = {
             'translate_text':''

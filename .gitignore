@@ -1,4 +1,5 @@
 *_venv/
+.venv/
 ../venv_crs_practice/
 *venv_crs_practice
 *_venv
@@ -6,3 +7,4 @@
 *.idea
 *.pyc
 db.*
+__pycache__

@@ -10,35 +10,36 @@
 
 {% block content %}
 <form action="" method="POST">
-
     {% csrf_token %}
     <div class="row form-group">
         <div class="col-10 form-group">
             <label for=" ">Текст статьи</label>
-            <textarea class="form-control" id=" "></textarea>
+            {{ translateFrom.article }}
+            <!--<textarea class="form-control" id=" ">{{q}}</textarea>-->
         </div>
         <div class="col-2 form-group">
-            <button type="button" class="btn btn-primary btn-sm">translate</button>
+            <button type="submit" class="btn btn-primary btn-sm"  style="top: 50%; position: relative;" >translate</button>
         </div>
     </div>
 </form>
-
+<br/>
 <form action="" method="POST">
-
+    {% csrf_token %}
     <div class="row form-group">
         <div class="col-10 form-group">
             <label for=" ">Перевод Статьи</label>
-            <textarea class="form-control" id=" "></textarea>
+            {{ summaryForm.translate_text }}
         </div>
         <div class="col-2 form-group">
-            <button type="button" class="btn btn-primary btn-sm">summary</button>
+            <button type="submit" class="btn btn-primary btn-sm" style="top: 50%; position: relative;">summary</button>
         </div>
     </div>
 </form>
+<br/>
 <div class="row">
     <div class="col-10">
         <label for=" ">Краткое содержание статьи"</label>
-            <textarea class="form-control" id=" " placeholder="Здесь будет отображаться краткое содержание статьи"></textarea>
+            <textarea class="form-control" id=" " placeholder="Здесь будет отображаться краткое содержание статьи">{{ summ }}</textarea>
     </div>
 </div>
 {% endblock %}
