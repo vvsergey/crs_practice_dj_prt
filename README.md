@@ -15,7 +15,7 @@
 - `$ python3 -m venv venv_name` *Создайте новое окружение, где venv_name - название окружения*
 - `$ source venv_name/bin/activate`
   
-1.2. Импорт и запуск  проекта:
+2. Импорт и запуск  проекта:
 - `$ git clone git@github.com:<you-info>.git` *(Сколнируйте проект в созданную вами папку)*
 - `$pip install -r requirements.txt` *(Установите зависимости из файла)*
 - `$python manage.py runserver` *(Запустите приложение)*
