@@ -1,3 +1,6 @@
+"""Этот модуль содержит реализованную предварительно обученную модель машинного перевода и краткого изложения русскоязычного
+текста."""
+
 from transformers import pipeline
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
@@ -27,7 +30,13 @@ The moon is currently in a geological division called the Copernican Period. It 
 """
 
 
-def translator(article_en):
+def translator(article_en: str) -> str:
+    '''
+    Функция реализует модель многоязычного машинного перевода mbart-large-50-many-to-many-mmt
+    на целевой язык - Русский
+    :param article_en: строка содержащая текст на английском языке.
+    :return: строка содержащая переведенный на русский язык исходный текст.
+    '''
     model = MBartForConditionalGeneration.from_pretrained("facebook/mbart-large-50-many-to-many-mmt")
     tokenizer = MBart50TokenizerFast.from_pretrained("facebook/mbart-large-50-many-to-many-mmt")
 
@@ -44,7 +53,13 @@ def translator(article_en):
     transleted = transleted[0]
     return transleted
 
-def summarizer(article_text):
+def summarizer(article_text: str) -> str:
+    '''
+    Реализует модель mbart_ru_sum_gazeta генераци резюме на основе исходного текста
+
+    :param article_text: строка содержащая полный текст на русском языке.
+    :return: строка содержащая краткое тезисное изложение исходного текста.
+    '''
     model_name = "IlyaGusev/mbart_ru_sum_gazeta"
     tokenizer = MBartTokenizer.from_pretrained(model_name)
     model = MBartForConditionalGeneration.from_pretrained(model_name)

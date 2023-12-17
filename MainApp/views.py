@@ -5,10 +5,17 @@ from MainApp.models import Translate, Summary
 from MainApp.forms import TranslateFrom, SummaryForm
 from ApplicationAi import hf
 
+"""Модуль содержит функции обработки HTTP запросв и отрисовку представлений."""
 # Create your views here.
 
 
 def print_index(request) -> HttpResponse:
+    '''
+    Выполянет отрисовку страницы index.html (Главная) и
+    отвечает за обработку событий формы
+    :param request: объект класса HttpRequest
+    :return: Объект класса HttpResponse
+    '''
     articles = list()
     translates = Translate.objects.all()
     for translate in translates:
@@ -52,8 +59,19 @@ def print_index(request) -> HttpResponse:
 
 
 def print_faqs(request) -> HttpResponse:
+    '''
+    Отрисовывает страницу FAQS
+    :param request: объект класса HttpRequest
+    :return: Объект класса HttpResponse
+    '''
     return render(request, 'faqs.html')
 
 
 def print_about(request) -> HttpResponse:
+    '''
+    Отрисовывает страниу About
+    :param request: объект класса HttpRequest
+    :return: объект класса HttpResponse
+    '''
+
     return render(request, 'about.html')

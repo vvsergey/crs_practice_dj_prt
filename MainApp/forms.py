@@ -1,7 +1,13 @@
+'''
+Модуль с описанием форм в виде классов
+'''
 from django.forms import ModelForm, TextInput, Textarea
 from MainApp.models import Translate, Summary
 
 class TranslateFrom(ModelForm):
+    '''
+    Класс для генерации формы Translate
+    '''
     class Meta:
         model = Translate
         fields = ['article']
@@ -17,6 +23,7 @@ class TranslateFrom(ModelForm):
 
 
 class SummaryForm(ModelForm):
+    '''Класс для генерации формы Summary'''
     class Meta:
         model = Summary
         fields = ['translate_text']
