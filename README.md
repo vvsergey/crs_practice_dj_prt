@@ -22,8 +22,8 @@
 - Перейдите по адресу: http://127.0.0.1:8000/ в браузере
 
 3. Тесты:
-- 3.1. Проверка кода на PEP8:
-   --`$pep8 ApplicationAi/hf.py`
+- Проверка кода на PEP8:
+   -`$pep8 ApplicationAi/hf.py`
    -`$pep8 crs_practice_dj_prt/urls.py`
    -`$pep8 pep8 MainApp/forms.py`
    -`$pep8 MainApp/models.py`
