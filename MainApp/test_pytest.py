@@ -1,3 +1,4 @@
+import pytest
 from django.test import TestCase
 from ApplicationAI.hf import translator, summarizer
 
