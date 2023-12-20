@@ -8,7 +8,7 @@ class Def_test(TestCase):
       translated = translator(article_en)
       self.assertEqual(translated, "Это тестовая статья на английском языке")
 
-   def test_summarizer():
+   def test_summarizer(self):
       article_text = "Это тестовая статья на русском языке. Она содержит некоторый текст для проверки функции summarizer."
       summary = summarizer(article_text)
       self.assertEqual(summary, "Тестовая статья на русском языке. Проверка функции summarizer.")
