@@ -1,6 +1,6 @@
 import pytest
 from django.test import TestCase
-from ApplicationAi/hf.py import translator, summarizer
+from ApplicationAi.hf.py import translator, summarizer
 
 class Def_test(TestCase):
    def test_translator(self):
