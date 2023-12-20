@@ -5,9 +5,10 @@ from transformers import pipeline
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 from transformers import MBartTokenizer
+import torch
 
 
-article_en = """
+article_ent = """
 Scientists used the term Anthropocene to describe the epoch where humans began to have a significant impact on Earth’s ecosystem and geology. The planet is about 4.5 billion years old, and modern humans have only been around for 200,000 years. In that short amount of time, Homo sapiens have significantly altered Earth’s biological, chemical, and physical systems. 
 
 The beginning of the Anthropocene Epoch is still being debated and has a large range. Some suggest it began thousands of years ago. Others pinpoint 1950, when plutonium isotopes from nuclear weapons tests were found at the bottom of a relatively pristine lake in Canada. Emissions of carbon dioxide and other greenhouse gasses accelerating global warming, ocean acidification, increased species extinction, habitat destruction, and natural resource extraction are additional signs that humans have dramatically modified our planet.
@@ -29,8 +30,67 @@ University College London astrophysicist Ingo Waldmann told New Scientist that t
 The moon is currently in a geological division called the Copernican Period. It dates over one billion years ago. In that time, Earth has gone through roughly 15 geological periods.
 """
 
+def trans_module(text, source_language, target_language, piece_len=256, max_batch =8):
+    '''
+    piece_len: max length of input
+    max_batch: num sample of translation per time
+    '''
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    torch.cuda.is_available()
+
+    model_path = "facebook/mbart-large-50-many-to-many-mmt"
+    model = MBartForConditionalGeneration.from_pretrained(model_path)
+    ml2en_tokenizer = MBart50TokenizerFast.from_pretrained(model_path)
+    ml2en_model = MBartForConditionalGeneration.from_pretrained(model_path).to(device)
+    ml2en_tokenizer.src_lang = source_language
+    
+    input_id = ml2en_tokenizer.encode(text)
+    
+    # special inputid for different language
+    start_id=[input_id[0]]
+    end_id=[input_id[-1]]
+    input_id = input_id[1:-1]
+    
+    #save translated result
+    res_text=''
+    
+    input_id_list= []
+    attention_mask_list=[]
+    
+    # create batch samples
+    for i in range(0,len(input_id),piece_len):
+        tmp_id = start_id+input_id[i:i+piece_len]+end_id
+        if len(input_id)<piece_len:
+            #only one sample
+            input_id_list.append(tmp_id)
+            attention_mask_list.append([1]*len(tmp_id))
+            break
+        else:
+            input_id_list.append(tmp_id+((piece_len+2)-len(tmp_id))*[1])#padding
+            attention_mask_list.append([1]*len(tmp_id)+((piece_len+2)-len(tmp_id))*[0])
+    
+    # translation
+    for i in range(0, len(input_id_list),max_batch):
+        input_id_list_batch = input_id_list[i:i+max_batch]
+        attention_mask_list_batch= attention_mask_list[i:i+max_batch]
+        input_dict = {'input_ids':torch.LongTensor(input_id_list_batch).to(device),"attention_mask":torch.LongTensor(attention_mask_list_batch).to(device)}
+        generated_tokens = ml2en_model.generate(
+            **input_dict,
+            forced_bos_token_id=ml2en_tokenizer.lang_code_to_id[target_language]
+        )
+        res_tmp =ml2en_tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
+        
+        # concate
+        res_text+=' '.join(res_tmp)
+        print(res_text)
+    return res_text
 
 def translator(article_en: str) -> str:
+    article_en = article_en.replace('\n', '')
+    print()
+    print(article_en)
+
+    return trans_module(article_en, source_language="en_XX", target_language="ru_RU", piece_len=256, max_batch =8)
     '''
     Функция реализует модель многоязычного машинного перевода mbart-large-50-many-to-many-mmt
     на целевой язык - Русский
@@ -38,12 +98,13 @@ def translator(article_en: str) -> str:
     :return: строка содержащая переведенный на русский язык исходный текст.
     '''
     model = MBartForConditionalGeneration.from_pretrained("facebook/mbart-large-50-many-to-many-mmt")
-    tokenizer = MBart50TokenizerFast.from_pretrained("facebook/mbart-large-50-many-to-many-mmt")
+    tokenizer = MBartTokenizer.from_pretrained("facebook/mbart-large-50-many-to-many-mmt", src_lang="en_XX", tgt_lang="ru_RU")
 
+    
     tokenizer.src_lang = "en_XX"
-    encoded_ar = tokenizer(article_en, return_tensors="pt")
+    encoded_en = tokenizer(article_en, return_tensors="pt")
     generated_tokens = model.generate(
-        **encoded_ar,
+        **encoded_en,
         early_stopping=False,
         forced_bos_token_id=tokenizer.lang_code_to_id["ru_RU"]
     )
