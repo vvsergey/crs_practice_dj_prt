@@ -1,12 +1,13 @@
-"""Этот модуль содержит реализованную предварительно обученную модель машинного перевода и краткого изложения русскоязычного
-текста."""
+"""
+Этот модуль содержит реализованную предварительно обученную модель машинного
+перевода и краткого изложения русскоязычного текста.
+"""
 
 from transformers import pipeline
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 from transformers import MBartTokenizer
 import torch
-
 
 article_ent = """
 Scientists used the term Anthropocene to describe the epoch where humans began to have a significant impact on Earth’s ecosystem and geology. The planet is about 4.5 billion years old, and modern humans have only been around for 200,000 years. In that short amount of time, Homo sapiens have significantly altered Earth’s biological, chemical, and physical systems. 
@@ -92,15 +93,14 @@ def translator(article_en: str) -> str:
 
     return trans_module(article_en, source_language="en_XX", target_language="ru_RU", piece_len=256, max_batch =8)
     '''
-    Функция реализует модель многоязычного машинного перевода mbart-large-50-many-to-many-mmt
-    на целевой язык - Русский
+    Функция реализует модель многоязычного машинного перевода
+    mbart-large-50-many-to-many-mmt на целевой язык - Русский
     :param article_en: строка содержащая текст на английском языке.
     :return: строка содержащая переведенный на русский язык исходный текст.
     '''
     model = MBartForConditionalGeneration.from_pretrained("facebook/mbart-large-50-many-to-many-mmt")
     tokenizer = MBartTokenizer.from_pretrained("facebook/mbart-large-50-many-to-many-mmt", src_lang="en_XX", tgt_lang="ru_RU")
 
-    
     tokenizer.src_lang = "en_XX"
     encoded_en = tokenizer(article_en, return_tensors="pt")
     generated_tokens = model.generate(
@@ -108,15 +108,18 @@ def translator(article_en: str) -> str:
         early_stopping=False,
         forced_bos_token_id=tokenizer.lang_code_to_id["ru_RU"]
     )
-    transleted = tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)
+    transleted = (tokenizer.
+                  batch_decode(generated_tokens, skip_special_tokens=True))
 
     print(transleted)
     transleted = transleted[0]
     return transleted
 
+
 def summarizer(article_text: str) -> str:
     '''
-    Реализует модель mbart_ru_sum_gazeta генераци резюме на основе исходного текста
+    Реализует модель mbart_ru_sum_gazeta генераци резюме на
+    основе исходного текста
 
     :param article_text: строка содержащая полный текст на русском языке.
     :return: строка содержащая краткое тезисное изложение исходного текста.
@@ -142,4 +145,3 @@ def summarizer(article_text: str) -> str:
     summary = tokenizer.decode(output_ids, skip_special_tokens=True)
     print(summary)
     return summary
-

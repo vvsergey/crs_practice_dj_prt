@@ -37,7 +37,6 @@ def print_index(request) -> HttpResponse:
         if (translate_text):
             summaryForm = SummaryForm(request.POST)
             summaryForm.save()
-    
     if (article):
         translate_text = hf.translator(article)
 
@@ -55,7 +54,9 @@ def print_index(request) -> HttpResponse:
     translateFrom = TranslateFrom({'article': article})
     summaryForm = SummaryForm({'translate_text': translate_text})
 
-    return render(request, 'index.html', {'translateFrom': translateFrom, 'summaryForm': summaryForm, 'summ': summ})
+    return render(request, 'index.html',
+                  {'translateFrom': translateFrom,
+                   'summaryForm': summaryForm, 'summ': summ})
 
 
 def print_faqs(request) -> HttpResponse:

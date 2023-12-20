@@ -4,6 +4,7 @@
 from django.forms import ModelForm, TextInput, Textarea
 from MainApp.models import Translate, Summary
 
+
 class TranslateFrom(ModelForm):
     '''
     Класс для генерации формы Translate
@@ -13,12 +14,14 @@ class TranslateFrom(ModelForm):
         fields = ['article']
         widgets = {
             'article': Textarea(attrs={
-                'placeholder': 'Вставьте сюда статью на английском, которую нужно перевести',
+                'placeholder':
+                    'Вставьте сюда статью на английском, '
+                    'которую нужно перевести',
                 'class': 'form-control',
             })
         }
         labels = {
-            'article':'123'
+            'article': '123'
         }
 
 
@@ -29,10 +32,12 @@ class SummaryForm(ModelForm):
         fields = ['translate_text']
         widgets = {
             'translate_text': Textarea(attrs={
-                'placeholder': 'Вставьте сюда статью по которой хотите получить краткое содержание',
+                'placeholder':
+                    'Вставьте сюда статью, '
+                    'по которой хотите получить краткое содержание',
                 'class': 'form-control',
             })
         }
         labels = {
-            'translate_text':''
+            'translate_text': ''
         }
