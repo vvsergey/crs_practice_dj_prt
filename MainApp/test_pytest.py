@@ -1,16 +1,19 @@
-import pytest
-from hf.py import translator
-from hf.py import summarizer
+from django.test import TestCase
+from ApplicationAI.hf import translator, summarizer
 
-def test_translator():
-    article_en = "This is a test article in English"
-    translated = translator(article_en)
-    assert translated == "Это тестовая статья на русском языке"
+class Def_test(TestCase):
+   def test_translator(self):
+      article_en = "This is a test article in English"
+      translated = translator(article_en)
+      self.assertEqual(translated, "Это тестовая статья на английском языке")
 
-def test_summarizer():
-    article_text = "Это тестовая статья на русском языке. Она содержит некоторый текст для проверки функции summarizer."
-    summary = summarizer(article_text)
-    assert summary == "Тестовая статья на русском языке. Проверка функции summarizer."
+   def test_summarizer():
+      article_text = "Это тестовая статья на русском языке. Она содержит некоторый текст для проверки функции summarizer."
+      summary = summarizer(article_text)
+      self.assertEqual(summary, "Тестовая статья на русском языке. Проверка функции summarizer.")
+
+
+
 
 from django.urls import reverse
 
