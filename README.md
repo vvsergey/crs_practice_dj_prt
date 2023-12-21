@@ -16,8 +16,9 @@
   
 2. Импорт и запуск проекта:
 - `$ git clone git@github.com:srtxtex/project_practice.git` *(Склонируйте проект)*
-- `$ cd project_practice` *(Перейдите в папку проекта)*
+- `$ cd project_practice/` *(Перейдите в папку проекта)*
 - `$ pip install -r requirements.txt` *(Установите зависимости из файла)*
+- `$ cd src/` *(Перейдите в папку src  с ресурсами проекта)*
 - `$ python manage.py makemigrations` *(Подготовьтесь к миграции)*
 - `$ python manage.py migrate` *(Выполните миграцию)*
 - `$ python manage.py migrate --run-syncdb` *(Синхронизируйтесь)*
