@@ -27,10 +27,10 @@
 
 ### Тесты:
 1. Проверка кода на PEP8:
-- `$pep8 src/sf_app/urls.py`
-- `$pep8 src/main/forms.py`
-- `$pep8 src/main/models.py`
-- `$pep8 src/main/views.py`
+- `$pep8 sf_app/urls.py`
+- `$pep8 main/forms.py`
+- `$pep8 main/models.py`
+- `$pep8 main/views.py`
 2. Unit тесты:
 - 
 
