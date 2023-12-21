@@ -12,7 +12,7 @@
 - `$ sudo apt update`
 - `$ sudo apt install python3.10-venv`
 - `$ python3 -m venv .venv` *Создайте новое окружение, где .venv - название окружения*
-- `$ source .venev/bin/activate`
+- `$ source .venv/bin/activate`
   
 2. Импорт и запуск проекта:
 - `$ git clone git@github.com:srtxtex/project_practice.git` *(Склонируйте проект)*
